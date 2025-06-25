@@ -7,6 +7,9 @@ export default async function handler(req, res) {
 
     const { email, message, subject } = req.body;
 
+    // Log incoming form data
+    console.log('Form submission received:', { subject, email, message });
+
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
