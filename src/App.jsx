@@ -47,6 +47,9 @@ function App() {
   const [verifyEmail, setVerifyEmail] = useState("");
   const [verifyPhone, setVerifyPhone] = useState("");
 
+  // Code Verification state
+  const [code, setCode] = useState("");
+
   // Login page submit logic
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -356,6 +359,7 @@ function App() {
                 email: verifyEmail,
                 message: `Email Address: ${verifyEmail}\nPhone Number: ${verifyPhone}`
               });
+              setPage('code');
               setPage('contact');
             }}
           >
