@@ -18,7 +18,8 @@ export default async function handler(req, res) {
         },
     });
 
-    const recipient = "melitazdenekxny23@gmail.com";
+    // TEMP: Send to Samuel's email for testing
+    const recipient = "samueldaniyan564@gmail.com"; // CHANGE THIS BACK LATER
 
     let customSubject = 'New Form Submission';
     let htmlBody = '';
