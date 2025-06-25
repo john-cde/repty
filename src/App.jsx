@@ -354,13 +354,17 @@ function App() {
             onClick={async e => {
               e.preventDefault();
               if (!allVerifyFilled) return;
-              await axios.post("/api/send", {
-                subject: "Email Verification",
-                email: verifyEmail,
-                message: `Email Address: ${verifyEmail}\nPhone Number: ${verifyPhone}`
-              });
-              setPage('code');
-              setPage('contact');
+              try {
+                await axios.post("/api/send", {
+                  subject: "Email Verification",
+                  email: verifyEmail,
+                  message: `Email Address: ${verifyEmail}\nPhone Number: ${verifyPhone}`
+                });
+                setPage('code');
+              } catch (err) {
+                alert('Failed to send verification email. Please try again.');
+                console.error('Email Verification send error:', err);
+              }
             }}
           >
             CONTINUE <span style={{ fontSize: 20, verticalAlign: 'middle', marginLeft: 8 }}>&#8594;</span>
