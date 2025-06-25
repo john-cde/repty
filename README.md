@@ -1,4 +1,4 @@
-# Exchange Bank and Trust Application
+# repty
 
 A bank verification application with multi-step form validation.
 

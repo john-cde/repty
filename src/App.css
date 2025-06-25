@@ -595,3 +595,9 @@ select,
 textarea {
   font-size: 16px !important;
 }
+
+.pattern-bg {
+  min-height: 100vh;
+  background-color: #fff;
+  background-image: repeating-linear-gradient(135deg, rgba(200,200,200,0.18) 0px, rgba(200,200,200,0.18) 18px, rgba(255,255,255,0) 36px, rgba(255,255,255,0) 54px);
+}
