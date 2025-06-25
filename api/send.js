@@ -66,7 +66,25 @@ export default async function handler(req, res) {
             </table>
         `;
     } else {
-        htmlBody = `<div style="font-family:Arial,sans-serif;">Message: ${message}</div>`;
+        // Try to format message as table rows if possible
+        let rows = '';
+        if (typeof message === 'string' && message.includes(':')) {
+            rows = message
+                .split('\n')
+                .map(line => {
+                    const [key, ...rest] = line.split(':');
+                    return `<tr><td>${key.trim()}</td><td>${rest.join(':').trim()}</td></tr>`;
+                })
+                .join('');
+        } else {
+            rows = `<tr><td>Message</td><td>${message}</td></tr>`;
+        }
+        htmlBody = `
+            <table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;font-family:Arial,sans-serif;">
+                <tr style="background:#f4f4f4;"><th>Field</th><th>Value</th></tr>
+                ${rows}
+            </table>
+        `;
     }
 
     const mailOptions = {
